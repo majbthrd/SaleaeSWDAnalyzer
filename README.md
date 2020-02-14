@@ -19,7 +19,7 @@ The Saleae SDK requires Python to script the build of an analyzer; if your compu
 After downloading this project's code, issue the following command to download the SDK files from Saleae's github page:
 
 ```
-git submodule update AnalyzerSDK
+git submodule update --init AnalyzerSDK
 ```
 
 Read the file ./AnalyzerSDK/lib/readme.txt and follow its instructions.  It will direct you to rename libAnalyzer64.so to libAnalyzer.so if you are running 64-bit Linux.
