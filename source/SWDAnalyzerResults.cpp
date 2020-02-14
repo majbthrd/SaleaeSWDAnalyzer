@@ -142,21 +142,19 @@ void SWDAnalyzerResults::GenerateExportFile( const char* file, DisplayBase displ
 void SWDAnalyzerResults::GenerateFrameTabularText( U64 frame_index, DisplayBase display_base )
 {
 	Frame frame = GetFrame( frame_index );
-	ClearResultStrings();
+	ClearTabularText();
 
 	char number_str[128];
-	AnalyzerHelpers::GetNumberString( frame.mData1, display_base, 8, number_str, 128 );
-	AddResultString( number_str );
+	build_string(number_str, &frame);
+	AddTabularText( number_str );
 }
 
 void SWDAnalyzerResults::GeneratePacketTabularText( U64 packet_id, DisplayBase display_base )
 {
-	ClearResultStrings();
-	AddResultString( "not supported" );
+	//not supported
 }
 
 void SWDAnalyzerResults::GenerateTransactionTabularText( U64 transaction_id, DisplayBase display_base )
 {
-	ClearResultStrings();
-	AddResultString( "not supported" );
+	//not supported
 }

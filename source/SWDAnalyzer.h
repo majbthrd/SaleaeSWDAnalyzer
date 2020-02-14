@@ -6,11 +6,13 @@
 #include "SWDSimulationDataGenerator.h"
 
 class SWDAnalyzerSettings;
-class ANALYZER_EXPORT SWDAnalyzer : public Analyzer
+class ANALYZER_EXPORT SWDAnalyzer : public Analyzer2
 {
 public:
 	SWDAnalyzer();
 	virtual ~SWDAnalyzer();
+
+	virtual void SetupResults();
 	virtual void WorkerThread();
 
 	virtual U32 GenerateSimulationData( U64 newest_sample_requested, U32 sample_rate, SimulationChannelDescriptor** simulation_channels );

@@ -10,7 +10,7 @@ The SW-DP protocol is described by the following publicly available documents:
 
 ## Background
 
-This was written in 2013, long before Saleae started bundling their own "SWD" analyzer.  It doesn't have the fancy "Decoded Protocols" window that Saleae added in subsequent years (you must use the "Export as text/csv" option), but I continue to find that this analyzer decodes transactions that the Saleae offering seems unable to.
+This was written in 2013, long before Saleae started bundling their own "SWD" analyzer.  I continue to find that this analyzer decodes transactions that the Saleae offering seems unable to.
 
 ## Building
 
