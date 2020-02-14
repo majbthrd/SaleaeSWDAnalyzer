@@ -8,17 +8,29 @@ The SW-DP protocol is described by the following publicly available documents:
 
 [CY8C41xx, CY8C42xx Programming Specifications](http://www.cypress.com/?docID=48133)
 
+## Background
+
+This was written in 2013, long before Saleae started bundling their own "SWD" analyzer.  It doesn't have the fancy "Decoded Protocols" window that Saleae added in subsequent years (you must use the "Export as text/csv" option), but I continue to find that this analyzer decodes transactions that the Saleae offering seems unable to.
+
 ## Building
 
 The Saleae SDK requires Python to script the build of an analyzer; if your computer doesn't have this installed, you are out of luck.
 
-To compile, first download and extract the Saleae SDK:
+After downloading this project's code, issue the following command to download the SDK files from Saleae's github page:
 
-http://support.saleae.com/hc/en-us/articles/201104644-Analyzer-SDK
+```
+git submodule update AnalyzerSDK
+```
 
-This will result in a directory of the form "SaleaeAnalyzerSdk-1.1.x".  Place the "SW-DP" directory from this project into this Saleae directory.
+Read the file ./AnalyzerSDK/lib/readme.txt and follow its instructions.  It will direct you to rename libAnalyzer64.so to libAnalyzer.so if you are running 64-bit Linux.
 
-To compile, follow the PDF in "SaleaeAnalyzerSdk-1.1.x/documentation" and the text file "lib/readme.txt".  Consult the Saleae support web site for any issues with the compilation procedure.
+To compile, run the following from the base directory of this project:
+
+```
+python build_analyzer.py
+```
+
+Consult the Saleae support web site and their [SampleAnalyzer](https://github.com/saleae/SampleAnalyzer) for any issues with the compilation procedure.
 
 The end result of compilation is a library in the "SW-DP/release/" subdirectory.  This file must be copied to the "Analyzers" subdirectory of the Saleae Logic software.
 
