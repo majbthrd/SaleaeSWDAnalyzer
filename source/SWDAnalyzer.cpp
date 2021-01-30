@@ -88,12 +88,9 @@ void SWDAnalyzer::WorkerThread()
 	U8 command, ack;
 	U32 data;
 
-	bool omit_data;
-
 	state = RST;
 	ones_count = 6;
 	previous_current_sample = 0;
-	omit_data = false;
 
 	for( ; ; )
 	{
@@ -207,23 +204,6 @@ void SWDAnalyzer::WorkerThread()
 				break;
 			}
 
-			switch (ack & 0x7)
-			{
-			case 1: /* OK */
-				omit_data = false;
-				break;
-			case 2: /* WAIT */
-			case 4: /* FAULT */
-			default:
-				frame.mData1 = (U32)command + ( (U32)ack << 4 );
-				frame.mData2 = data;
-				frame.mFlags = 0;
-				frame.mStartingSampleInclusive = onset_sample;
-				frame.mEndingSampleInclusive = current_sample;
-				mResults->AddFrame( frame );
-				omit_data = true;
-				break;
-			}
 			break;
 		case ACKTRN:
 			mResults->AddMarker( current_sample, AnalyzerResults::Square, mSettings->mSWDIOChannel );
@@ -234,18 +214,15 @@ void SWDAnalyzer::WorkerThread()
 
 			if (33 == data_count)
 			{
-				if (!omit_data)
-				{
-					next_state = (command & 0x4) ? ENDTRN : START;
-					mResults->AddMarker( current_sample, (parity == rise_bit) ? AnalyzerResults::Dot : AnalyzerResults::ErrorDot, mSettings->mSWDIOChannel );
+				next_state = (command & 0x4) ? ENDTRN : START;
+				mResults->AddMarker( current_sample, (parity == rise_bit) ? AnalyzerResults::Dot : AnalyzerResults::ErrorDot, mSettings->mSWDIOChannel );
 
-					frame.mData1 = (U32)command + ( (U32)ack << 4 );
-					frame.mData2 = data;
-					frame.mFlags = 0;
-					frame.mStartingSampleInclusive = onset_sample;
-					frame.mEndingSampleInclusive = current_sample;
-					mResults->AddFrame( frame );
-				}
+				frame.mData1 = (U32)command + ( (U32)ack << 4 );
+				frame.mData2 = data;
+				frame.mFlags = 0;
+				frame.mStartingSampleInclusive = onset_sample;
+				frame.mEndingSampleInclusive = current_sample;
+				mResults->AddFrame( frame );
 			}
 			else
 			{

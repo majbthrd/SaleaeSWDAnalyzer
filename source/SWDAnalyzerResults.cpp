@@ -60,7 +60,7 @@ static void build_string ( char *number_str, Frame *frame )
 			{ "IDCODE", "ABORT" },
 			{ "CTRL/STAT", "CTRL/STAT" },
 			{ "RESEND", "SELECT" },
-			{ "RDBUFF", "N/A" },
+			{ "RDBUFF", "TARGETSEL" },
 		},
 		{
 			/* AHB-AP registers */
@@ -80,8 +80,11 @@ static void build_string ( char *number_str, Frame *frame )
 	op_name = op_names[op_code];
 	reg_name = reg_names[(op_code & 2) ? 1 : 0][reg_addr][(op_code & 1) ? 0 : 1];
 
+	if ( (0 == op_code) && (3 == reg_addr) ) ack_code = 8; /* writes to TARGETSEL don't get a response */
+
 	switch (ack_code)
 	{
+	case 8: /* special case of TARGETSEL */
 	case 0x1: /* OK */
 		sprintf(number_str, "%s[%u=%s] %08x",   op_name, reg_addr, reg_name, frame->mData2);
 		break;
